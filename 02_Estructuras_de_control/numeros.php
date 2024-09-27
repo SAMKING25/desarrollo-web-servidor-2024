@@ -81,11 +81,18 @@
     } elseif ($numero_aleatorio < 10 && $numero_aleatorio >= 1){
         $digitos = 1;
     }
-
+    
     $digitos_texto = "digitos";
     if ($digitos == 1) $digitos_texto = "digito";
-
     echo "<p>El numero $numero_aleatorio tiene $digitos $digitos_texto</p>";
+
+    //  VERSION CON MATCH
+    $resultado = match (true) {
+        $numero_aleatorio >= 1 && $numero_aleatorio <=9 => 1 ,
+        $numero_aleatorio >= 10 && $numero_aleatorio <= 99 => 2,
+        $numero_aleatorio >= 100 && $numero_aleatorio <= 999 => 3,
+    };
+    echo "<p>El numero $numero_aleatorio tiene $resultado $digitos_texto</p>";
     
     /*
         if ($numero_aleatorio >= 100 && $numero_aleatorio <=200) echo "<p>El numero tiene 3 digitos</p>";
@@ -113,6 +120,14 @@
         default:
             echo "El número es 3";
     }
+
+    $resultado = match ($n) {
+        1 => "El número es 1",
+        2 => "El número es 2",
+        3 => "El número es 3",
+    };
+
+    echo "<h3>$resultado</h3>"
 
 
 

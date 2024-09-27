@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fechas</title>
+    <?php
+        error_reporting( E_ALL );
+        ini_set( "display_errors", 1 );    
+    ?>
 </head>
 <body>
         <?php
@@ -11,7 +15,7 @@
         $numero = (int) $numero;
 
         if($numero === 2){
-            echo "EXITO";
+            echo "EXITO<br>";
         } else{
             echo "NO EXITO";
         }
@@ -83,6 +87,21 @@
             default:
                 echo "<p>Hoy no hay clase de servidor";
         }
+
+        $dia = date("l");
+        $dia_espanol = null;
+
+        $dia_espanol = match($dia) {
+            "Monday" => "Lunes",
+            "Tuesday" => "Martes",
+            "Wednesday" => "Miercoles",
+            "Thursday" => "Jueves",
+            "Friday" => "Viernes",
+            "Saturday" => "Sabado",
+            "Sunday" => "Domingo"
+        };
+
+        echo "<h3>$dia_espanol</h3>";
 
         
 
