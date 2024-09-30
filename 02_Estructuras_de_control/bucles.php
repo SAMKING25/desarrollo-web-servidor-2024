@@ -30,6 +30,34 @@
         echo "</ul>";
     ?>
 
-    
+    <h1>Lista con FOR</h1>
+    <?php
+        echo "<ul>";
+        for($i = 1; $i <= 10; $i++){
+            echo "<li>$i</li>";
+        }
+        echo "</ul>"
+    ?>
+
+    <h1>Lista con FOR alternativa</h1>
+    <?php
+        echo "<ul>";
+        for($i = 1; $i <= 10; $i++):
+            echo "<li>$i</li>";
+        endfor;
+        echo "</ul>"
+    ?>
+
+    <h1>Lista con FOR con BREAK</h1>
+    <?php
+        echo "<ul>";
+        for($i = 1; ; $i++):
+            if($i > 10){
+                break;
+            }
+            echo "<li>$i</li>";
+        endfor;
+        echo "</ul>"
+    ?>
 </body>
 </html>
