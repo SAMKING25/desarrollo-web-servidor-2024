@@ -1,0 +1,27 @@
+table{
+    border: 2px solid purple;
+}
+
+th,td{
+    border: 2px solid palevioletred;
+}
+
+caption{
+    border: 2px solid pink;
+}
+
+.sobresaliente{
+    background-color: green;
+}
+
+.notable{
+    background-color: greenyellow;
+}
+
+.bien{
+    background-color: yellow;
+}
+
+.suspenso{
+    background-color: red;
+}
