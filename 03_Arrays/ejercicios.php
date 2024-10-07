@@ -44,10 +44,11 @@
         </thead>
         <tbody>
             <?php
+                asort($asignaturas);
                 foreach($asignaturas as $asignatura => $profesor){
                     echo "<tr>";
-                        echo "<td>$asignatura</td>";
-                        echo "<td>$profesor</td>";
+                    echo "<td>$asignatura</td>";
+                    echo "<td>$profesor</td>";
                     echo "</tr>";
                 }
             ?>
@@ -105,5 +106,46 @@
             ?>
         </tbody>
     </table>
+    <br><br>
+    <?php
+        $notas["SAMKING"] = rand(0,10);
+        $notas["Waluigi"] = rand(0,10);
+
+        unset($notas["Luis"]);
+
+        asort($notas);
+    ?>
+    <table>
+        <caption>Estudiantes ordenados de menor a mayor nota</caption>
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th>Nota</th>
+                <th>Calificacion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach($notas as $nombre => $nota){?>
+                    <tr>
+                    <td><?php echo $nombre ?></td>
+                    <td><?php echo $nota ?></td>
+                        <?php if($nota < 5){ ?>
+                            <td class="suspenso">SUSPENSO</td>
+                        <?php } elseif ($nota >= 5 && $nota < 7 ) { ?>
+                            <td class="bien">BIEN</td>
+                        <?php } elseif ($nota >= 7 && $nota < 9 ) { ?>
+                            <td class="notable">NOTABLE</td>
+                        <?php } else { ?>
+                            <td class="sobresaliente">SOBRESALIENTE</td>
+                        <?php } 
+
+                    echo "</tr>";
+                }
+            ?>
+        </tbody>
+    </table>
+
 </body>
+
 </html>

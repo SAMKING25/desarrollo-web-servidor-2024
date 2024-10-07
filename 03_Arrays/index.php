@@ -32,6 +32,22 @@
                     Ejercicios
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <a href="arrays_bidimensionales.php">arrays_bidimensionales.php</a>
+                </td>
+                <td>
+                    Matrices
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="peliculas.php">peliculas.php</a>
+                </td>
+                <td>
+                    Peliculas
+                </td>
+            </tr>
             
         </tbody>
     </table>
