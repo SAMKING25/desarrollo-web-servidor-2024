@@ -12,6 +12,8 @@
 </head>
 <body>
     <!-- Realiza un formulario que reciba 3 números y devuelva el mayor de ellos. -->
+
+    <h2>Calcula el numero mayor</h2>
     <form action="" method="post">
         <label for="num1">Numero 1</label>
         <input type="text" name="num1" id="num1"><br><br>
