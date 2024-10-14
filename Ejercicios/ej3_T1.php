@@ -26,19 +26,16 @@
 
     <?php 
         if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $num1 = $_POST["num1"];
-            $num2 = $_POST["num2"];
             $primo = $_POST["num1"];
+            $num2 = $_POST["num2"];
             $res = "";
             
             for($primo ;$primo <= $num2 ;$primo++){
-                for($j=2 ;$j<=$primo; $j++){
+                for($j=2 ;$j <= $primo; $j++){
                     if($primo % $j == 0){break;}
-                    
                 }
                 if($primo==$j){
                     $res .= $primo.", ";
-                    
                 }
             }
 

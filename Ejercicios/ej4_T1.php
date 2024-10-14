@@ -45,8 +45,8 @@
         Para convertir de ºF a ºC use la fórmula:   ºC = (ºF-32) ÷ 1.8.
         Para convertir de K a ºC use la fórmula:   ºC = K – 273.15
         Para convertir de ºC a K use la fórmula: K = ºC + 273.15.
-        Para convertir de ºF a K use la fórmula: K = 5/9 (ºF – 32) + 273.15.
-        Para convertir de K a ºF use la fórmula:   ºF = 1.8(K – 273.15) + 32
+        Para convertir de ºF a K use la fórmula: K = 5/9*(ºF – 32) + 273.15.
+        Para convertir de K a ºF use la fórmula:   ºF = 1.8*(K – 273.15) + 32
     -->
 
     <?php
@@ -54,15 +54,14 @@
         $temp = $_POST["temp"];
         $tipo1 = $_POST["tipo1"];
         $tipo2 = $_POST["tipo2"];
-
+        $res = $_POST["temp"];
+        
         switch ($tipo1) {
             case 'celsius':
                 if($tipo2 == "kelvin"){
                     $res = $temp + 273.15;
                 } elseif($tipo2 == "fahrenheit"){
                     $res = ($temp * 1.8)+32;
-                } else{
-                    $res = $temp;
                 }
                 break;
             case 'kelvin':
@@ -70,8 +69,6 @@
                     $res = $temp - 273.15;
                 } elseif($tipo2 == "fahrenheit"){
                     $res = 1.8*($temp - 273.15)+32;
-                } else{
-                    $res = $temp;
                 }
                 break;
             case 'fahrenheit':
@@ -79,8 +76,6 @@
                     $res = ($temp-32) / 1.8;
                 } elseif($tipo2 == "kelvin"){
                     $res = 5/9*($temp - 32)+273.15;
-                } else{
-                    $res = $temp;
                 }
                 break;
             default:
