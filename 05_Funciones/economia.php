@@ -1,21 +1,20 @@
-<!DOCTYPE html>                 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="post">
-        <input type="text" name="salario" placeholder="Salario">
-        <input type="submit" value="Calcular salario bruto">
-    </form>
-    <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $salario = $_POST["salario"];
+<?php
+    define("GENERAL", 1.21);
+    define("REDUCIDO", 1.1);
+    define("SUPERREDUCIDO", 1.04);
+    
+    function calcularPVP($precio, $iva) {
+        $pvp = match($iva) {
+            "general" => $precio * GENERAL,
+            "reducido" => $precio * REDUCIDO,
+            "superreducido" => $precio * SUPERREDUCIDO
+        };
+        return $pvp;
+    }
 
+    function calcularIRPF($salario) {
         $salario_final = null;
-        
+
         $tramo1 = (12450 * 0.19);
         $tramo2 = ((20200 - 12450) * 0.24);
         $tramo3 = ((35200 - 20200) * 0.30);
@@ -55,9 +54,6 @@
                 - $tramo5
                 - (($salario - 300000) * 0.47);
         }
-
-        echo "<h1>El salario neto de $salario es $salario_final</h1>";
+        return $salario_final;
     }
-    ?>
-</body>
-</html>
+?>

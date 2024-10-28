@@ -6,52 +6,74 @@
     <title>Document</title>
     <?php
         error_reporting( E_ALL );
-        ini_set("display_errors", 1 );    
+        ini_set("display_errors", 1 );   
 
-        define("GENERAL", 1.21);
-        define("REDUCIDO", 1.1);
-        define("SUPERREDUCIDO", 1.04);
+        require('../../05_Funciones/economia.php');
     ?>
+    <style>
+        .error{
+            color: red;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
-    <!--
-    GENERAL = 21%
-    REDUCIDO = 10%
-    SUPERREDUCIDO = 4%
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $tmp_precio = $_POST["precio"];
+        if(isset($_POST["iva"])) $tmp_iva = $_POST["iva"];
+        else $tmp_iva = "";
 
-    10€ IVA = GENERAL, PVP = 12,1€ PVP = precio * 1.21
-    10€ iva = REDUCIDO, PVP = 11€  PVP = precio * 1.1
-    -->
+        if($tmp_precio == '') {
+            $err_precio = "El precio es obligatorio";
+        } else {
+            if(filter_var($tmp_precio, FILTER_VALIDATE_FLOAT) === FALSE) {
+                $err_precio = "El precio debe ser un número";
+            } else {
+                if($tmp_precio < 0) {
+                    $err_precio = "El precio debe ser mayor o igual que cero";
+                } else {
+                    $precio = $tmp_precio;
+                }
+            }
+        }
+
+        if($tmp_iva == '') {
+            $err_iva = "El IVA es obligatorio";
+        } else {
+            $valores_validos_iva = ["general", "reducido", "superreducido"];
+            if(!in_array($tmp_iva, $valores_validos_iva)) {
+                $err_iva =  "El IVA solo puede ser: general, reducido, superreducido";
+            } else {
+                $iva = $tmp_iva;
+            }
+        }
+
+    }
+    ?>
+
     <form action="" method="post">
         <label for="precio">Precio</label>
         <input type="text" name="precio" id="precio">
+        <?php if(isset($err_precio)) echo "<span class='error'>$err_precio</span>"; ?>
         <br><br>
         <select name="iva">
+            <option disabled selected hidden>-- Elige un tipo de IVA --</option>
             <option value="general">General</option>
             <option value="reducido">Reducido</option>
             <option value="superreducido">Superreducido</option>
         </select>
+        <?php if(isset($err_iva)) echo "<span class='error'>$err_iva</span>"; ?>
         <br><br>
         <input type="submit" value="Calcular">
+        <br><br>
     </form>
 
-    <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $precio = $_POST["precio"];
-        $iva = $_POST["iva"];
-
-        if($precio != '' and $iva != ''){
-            $pvp = match($iva) {
-                "general" => $precio * GENERAL,
-                "reducido" => $precio * REDUCIDO,
-                "superreducido" => $precio * SUPERREDUCIDO
-            };
-
-            echo "<p>El PVP ES $pvp</p>";
-        }else{
-            echo "<p>Te faltan datos cabezon</p>";
+    <?php 
+        if(isset($precio) && isset($iva)) {
+            echo "El resultado es ".calcularPVP($precio, $iva);
         }
-    }
     ?>
+    
 </body>
 </html>
