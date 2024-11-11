@@ -32,6 +32,15 @@
         $tmp_dni = depurar($_POST["dni"]);
         $tmp_correo = depurar($_POST["correo"]);
         $tmp_fecha_nacimiento = depurar($_POST["fecha_nacimiento"]);
+        $tmp_primer_dni = depurar($_POST["primer_dni"]);
+
+        if($tmp_fecha_nacimiento > $tmp_primer_dni){
+            echo "<h1>La fecha de nacimiento no puede ser posterior a la del DNI</h1>";
+        } elseif($tmp_fecha_nacimiento == $tmp_primer_dni){
+            echo "Por los pelo pasas";
+        } else{
+            echo "Okey es legit";
+        }
 
         if($tmp_dni  == ''){
             $err_dni = "El DNI es obligatorio";
@@ -47,34 +56,6 @@
                 $resto_dni = $numero_dni % 23;
 
                 $resto_dni = $numero_dni % 23;
-
-                /* 
-                $letra_correcta = match($resto_dni) {
-                    0 => "T",
-                    1 => "R",
-                    2 => "W",
-                    3 => "A",
-                    4 => "G",
-                    5 => "M",
-                    6 => "Y",
-                    7 => "F",
-                    8 => "P",
-                    9 => "D",
-                    10 => "X",
-                    11 => "B",
-                    12 => "N",
-                    13 => "J",
-                    14 => "Z",
-                    15 => "S",
-                    16 => "Q",
-                    17 => "V",
-                    18 => "H",
-                    19 => "L",
-                    20 => "C",
-                    21 => "K",
-                    22 => "E"
-                }; 
-                */
 
                 $letras_dni = "TRWAGMYFPDXBNJZSQVHLCKE";
                 $letra_correcta = substr($letras_dni,$resto_dni,1);
@@ -237,6 +218,10 @@
                 <label class="form-label">Fecha nacimiento</label>
                 <input type="date" class="form-control" name="fecha_nacimiento">
                 <?php if(isset($err_fecha)) echo "<span class='error'>$err_fecha</span>"; ?>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha primer DNI</label>
+                <input type="date" class="form-control" name="primer_dni">
             </div>
             <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="Enviar">
