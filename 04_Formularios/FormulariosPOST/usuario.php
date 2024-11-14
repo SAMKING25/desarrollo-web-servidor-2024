@@ -35,11 +35,12 @@
         $tmp_primer_dni = depurar($_POST["primer_dni"]);
 
         if($tmp_fecha_nacimiento > $tmp_primer_dni){
-            echo "<h1>La fecha de nacimiento no puede ser posterior a la del DNI</h1>";
+            $err_primer_dni = "La fecha de nacimiento no puede ser posterior a la del DNI";
         } elseif($tmp_fecha_nacimiento == $tmp_primer_dni){
             echo "Por los pelo pasas";
+            $fecha_primer_dni = $tmp_primer_dni;
         } else{
-            echo "Okey es legit";
+            $fecha_primer_dni = $tmp_primer_dni;
         }
 
         if($tmp_dni  == ''){
@@ -215,26 +216,28 @@
                 <?php if(isset($err_apellidos)) echo "<span class='error'>$err_apellidos</span>"; ?>
             </div>
             <div class="mb-3">
-                <label class="form-label">Fecha nacimiento</label>
+                <label class="form-label">Fecha nacimiento</label>nombre
                 <input type="date" class="form-control" name="fecha_nacimiento">
-                <?php if(isset($err_fecha)) echo "<span class='error'>$err_fecha</span>"; ?>
+                <?php if(isset($err_fecha_nacimiento)) echo "<span class='error'>$err_fecha_nacimiento</span>"; ?>
             </div>
             <div class="mb-3">
                 <label class="form-label">Fecha primer DNI</label>
                 <input type="date" class="form-control" name="primer_dni">
+                <?php if(isset($err_primer_dni)) echo "<span class='error'>$err_primer_dni</span>"; ?>
             </div>
             <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="Enviar">
             </div>
         </form>
         <?php
-        if(isset($dni) && isset($correo) && isset($usuario) && isset($nombre)) { ?>
+        if(isset($dni) && isset($correo) && isset($usuario) && isset($nombre) && isset($apellidos) && isset($fecha_nacimiento) && isset($fecha_primer_dni)) { ?>
             <h1><?php echo $dni ?></h1>
             <h1><?php echo $correo ?></h1>
             <h1><?php echo $usuario ?></h1>
             <h1><?php echo $nombre ?></h1>
             <h1><?php echo $apellidos ?></h1>
             <h1><?php echo $fecha_nacimiento ?></h1>
+            <h1><?php echo $fecha_primer_dni ?></h1>
         <?php } ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
