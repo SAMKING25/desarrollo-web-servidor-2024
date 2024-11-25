@@ -24,14 +24,6 @@
             $salida = preg_replace('!\s+!',' ',$salida);
             return $salida;
         }
-
-        $estudios = [
-            'Madhouse',
-            'Toei Animation',
-            'Bones',
-            'Kyoto Animation',
-            'Studio Ghibli'
-        ];
     ?>
 
     <?php 
@@ -40,6 +32,15 @@
             $tmp_nombre_estudio = depurar($_POST["nombre_estudio"]); 
             $tmp_anno_estreno = depurar($_POST["anno_estreno"]);
             $tmp_num_temporadas = depurar($_POST["num_temporadas"]);
+            /**
+             * $_FILES -> que es un array bidimensional
+            */
+            // var_dump($_FILES["imagen"]);
+            $nombre_imagen = $_FILES["imagen"]["name"];
+            $ubicacion_temporal = $_FILES["imagen"]["tmp_name"];
+            $ubicacion_final = "./imagenes/$nombre_imagen";
+
+            move_uploaded_file($ubicacion_temporal, $ubicacion_final);
 
             if($tmp_titulo == ''){
                 $err_titulo = "El titulo tiene que ser obligatorio";
@@ -73,15 +74,24 @@
                 }
             }
 
-            $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas)
-                    VALUES ('$titulo','$nombre_estudio', $anno_estreno, $num_temporadas)";
+            $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen)
+                    VALUES ('$titulo','$nombre_estudio', $anno_estreno, $num_temporadas, '$ubicacion_final')";
             $_conexion -> query($sql);
         }
+
+        $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";
+        $resultado = $_conexion -> query($sql);
+        $estudios = [];
+
+        while ($fila = $resultado -> fetch_assoc()){
+            array_push($estudios, $fila["nombre_estudio"]);
+        }
+            
     ?>
 
     <div class="container">
         <h1>Nuevo Anime</h1> 
-        <form class="col-4" action="" method="post">
+        <form class="col-4" action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label">Titulo</label>
                 <input type="text" class="form-control" name="titulo">
@@ -89,17 +99,18 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Nombre estudio</label> <br>
-                <input type="text" class="form-control" name="nombre_estudio">
                 <?php 
                     if(isset($err_nombre_estudio)) echo "<span class='error'>$err_nombre_estudio</span>";                     
                 ?>
-                <!-- <select name="nombre_estudio">
+                <select name="nombre_estudio" class="form-select">
+                    <option value ="" selected disabled hidden>--- Elige el estudio ---</option>
                 <?php
-                    /* foreach($estudios as $estudio){
-                        echo "<option value= $estudio >" . $estudio ."</option>";
-                    }  */
-                ?>
-                </select>  -->
+                    foreach($estudios as $estudio){ ?>
+                        <option value="<?php echo $estudio ?>">
+                            <?php echo $estudio ?>
+                        </option>
+                    <?php } ?>
+                </select> 
             </div>
             <div class="mb-3">
                 <label class="form-label">Año de estreno</label>
@@ -112,7 +123,13 @@
                 <?php if(isset($err_num_temporadas)) echo "<span class='error'>$err_num_temporadas</span>"; ?>
             </div>
             <div class="mb-3">
+                <label class="form-label">Imagen</label>
+                <input type="file" class="form-control" name="imagen">
+                <?php if(isset($err_imagen)) echo "<span class='error'>$err_imagen</span>"; ?>
+            </div>
+            <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="Insertar">
+                <a class="btn btn-secondary" href="index.php">Volver</a><br><br>
             </div>
         </form>
     </div>
