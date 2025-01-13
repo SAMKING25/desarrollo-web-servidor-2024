@@ -32,15 +32,29 @@
 
             $contrasena_cifrada = password_hash($contrasena,PASSWORD_DEFAULT);
 
+            $sql="SELECT * FROM usuarios WHERE usuario ='$usuario'";
+            $resultado = $_conexion -> query($sql);
+
             if($resultado -> num_rows == 1){
                 $err_usuario = "El usuario $usuario ya existe";
+            } else{
+                // $sql = "INSERT INTO usuarios VALUES ('$usuario','$contrasena_cifrada')";
+                // 1.
+                $sql = $_conexion -> prepare("INSERT INTO usuarios VALUES
+                (?,?)");
+                
+                // 2.
+                $sql -> bind_param("ss",
+                    $usuario,
+                    $contrasena_cifrada
+                );
+
+                // 3.
+                $sql -> execute();
+
+                header("location: iniciar_sesion.php");
+                exit;
             }
-
-            $sql = "INSERT INTO usuarios VALUES ('$usuario','$contrasena_cifrada')";
-            $_conexion -> query($sql);
-
-            header("location: iniciar_sesion.php");
-            exit;
         }
     ?>
 

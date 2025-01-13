@@ -73,10 +73,28 @@
                     $num_temporadas = $tmp_num_temporadas;
                 }
             }
-
+            /*
             $sql = "INSERT INTO animes (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen)
                     VALUES ('$titulo','$nombre_estudio', $anno_estreno, $num_temporadas, '$ubicacion_final')";
             $_conexion -> query($sql);
+            */
+
+            //1. Preparacion
+            $sql = $_conexion -> prepare("INSERT INTO animes
+                (titulo, nombre_estudio, anno_estreno, num_temporadas, imagen)
+                VALUES (?,?,?,?,?)");
+
+            // 2. Enlazado
+            $sql -> bind_param("ssiis",
+                $titulo,
+                $nombre_estudio,
+                $anno_estreno,
+                $num_temporadas,
+                $ubicacion_final
+            );
+
+            // 3. Ejecucion
+            $sql -> execute();
         }
 
         $sql = "SELECT * FROM estudios ORDER BY nombre_estudio";

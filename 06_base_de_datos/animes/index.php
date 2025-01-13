@@ -25,8 +25,17 @@
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $id_anime = $_POST["id_anime"];
             // Borrar el anime
-            $sql = "DELETE FROM animes WHERE id_anime = $id_anime";
-            $_conexion -> query($sql);
+            /* $sql = "DELETE FROM animes WHERE id_anime = $id_anime";
+            $_conexion -> query($sql); */
+
+            // 1. Prepare
+            $sql = $_conexion -> prepare("DELETE FROM animes WHERE id_anime = ?");
+
+            // 2. Bind
+            $sql -> bind_param("i",$id_anime);
+
+            // 3. Execute
+            $sql -> execute();
         }
 
         $sql = "SELECT * FROM animes";
