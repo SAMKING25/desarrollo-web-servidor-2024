@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudios</title>
+    <title>jikan</title>
     <?php 
         error_reporting( E_ALL );
         ini_set( "display_errors", 1 );
@@ -11,12 +11,7 @@
 </head>
 <body>
     <?php 
-        $apiUrl = "http://localhost/Ejercicios/07_apis/estudios/api_estudios.php";
-
-        if(!empty($_GET["ciudad"])){
-            $ciudad = $_GET["ciudad"];
-            $apiUrl = "$apiUrl?ciudad=$ciudad";
-        }
+        $apiUrl = "https://api.jikan.moe/v4/top/anime";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $apiUrl);
@@ -24,22 +19,23 @@
         $respuesta = curl_exec($curl);
         curl_close($curl);
 
-        $estudios = json_decode($respuesta, true);
-        // print_r($estudios);
+        $datos = json_decode($respuesta, true);
+        $animes = $datos["data"];
+        // print_r($animes);
     ?>
-
-    <form method="get">
-        <label>Ciudad: </label>
-        <input type="text" name="ciudad">
-        <input type="button" value="Buscar">
-    </form>
+    <ol>
+        <?php
+        foreach($animes as $anime) { ?>
+            <li><?php echo $anime["title"] ?></li>
+        <?php } ?>
+    </ol>
 
     <table>
         <thead>
             <tr>
-                <th>Estudio</th>
+                <th>Titulo</th>
                 <th>Ciudad</th>
-                <th>Año de fundación</th>
+                <th>Imagen</th> 
             </tr>
         </thead>
         <tbody>
@@ -53,5 +49,6 @@
             <?php } ?>
         </tbody>
     </table>
+
 </body>
 </html>
