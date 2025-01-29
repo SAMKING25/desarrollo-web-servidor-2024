@@ -14,18 +14,16 @@
     
     <?php
         $apiUrl = "https://api.jikan.moe/v4/top/anime";
-        $page = 1;
+        $page = isset($_GET["page"]) ? $_GET["page"] : 1;
+        $tipo = isset($_GET["type"]) ? $_GET["type"] : "";
 
         if(isset($_GET["page"]) && isset($_GET["type"])){
-            $page=$_GET["page"];
-            $tipo=$_GET["type"];
             $apiUrl = "https://api.jikan.moe/v4/top/anime?page=$page&type=$tipo";
         }
         elseif(isset($_GET["page"])){
-            $page=$_GET["page"];
             $apiUrl = "https://api.jikan.moe/v4/top/anime?page=$page";
-        }elseif(isset($_GET["type"])){
-            $tipo=$_GET["type"];
+        }
+        elseif(isset($_GET["type"])){
             $apiUrl = "https://api.jikan.moe/v4/top/anime?type=$tipo";
         }
         
@@ -78,11 +76,14 @@
     </table>
     <?php
         if($pagination["current_page"] > 1){ ?>
-            <a href="?page=<?php echo $page-1 ?>&type=<?php echo $tipo ?>">Anterior</a>
+            <a href="?page=<?php echo $page-1 ?>&type=<?php echo $tipo ?>" class="btn btn-primary">Anterior</a>
     <?php } 
         if($pagination["has_next_page"]){ ?>
-            <a href="?page=<?php echo $page+1 ?>&type=<?php echo $tipo ?>">Siguiente</a>
+            <a href="?page=<?php echo $page+1 ?>&type=<?php echo $tipo ?>" class="btn btn-success">Siguiente</a>
     <?php } ?>
+    <select>
+        <option></option>
+    </select>
     
 </body>
 </html>
