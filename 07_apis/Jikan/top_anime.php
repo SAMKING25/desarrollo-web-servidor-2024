@@ -11,9 +11,24 @@
     ?>
 </head>
 <body>
+    
     <?php
         $apiUrl = "https://api.jikan.moe/v4/top/anime";
+        $page = 1;
 
+        if(isset($_GET["page"]) && isset($_GET["type"])){
+            $page=$_GET["page"];
+            $tipo=$_GET["type"];
+            $apiUrl = "https://api.jikan.moe/v4/top/anime?page=$page&type=$tipo";
+        }
+        elseif(isset($_GET["page"])){
+            $page=$_GET["page"];
+            $apiUrl = "https://api.jikan.moe/v4/top/anime?page=$page";
+        }elseif(isset($_GET["type"])){
+            $tipo=$_GET["type"];
+            $apiUrl = "https://api.jikan.moe/v4/top/anime?type=$tipo";
+        }
+        
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $apiUrl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -22,7 +37,18 @@
 
         $datos = json_decode($respuesta, true);
         $animes = $datos["data"];
+        $pagination = $datos["pagination"];
     ?>
+    <form method="get">
+        <h2>Tipo de filtro:</h2>
+        <label>Peliculas</label>
+        <input type="radio" name="type" value="movie"><br>
+        <label>Serie</label>
+        <input type="radio" name="type" value="tv"><br>
+        <label>Todos</label>
+        <input type="radio" name="type" value=""><br>
+        <input type="submit" value="Enviar">
+    </form>
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -50,5 +76,13 @@
                 <?php } ?>
         </tbody>
     </table>
+    <?php
+        if($pagination["current_page"] > 1){ ?>
+            <a href="?page=<?php echo $page-1 ?>&type=<?php echo $tipo ?>">Anterior</a>
+    <?php } 
+        if($pagination["has_next_page"]){ ?>
+            <a href="?page=<?php echo $page+1 ?>&type=<?php echo $tipo ?>">Siguiente</a>
+    <?php } ?>
+    
 </body>
 </html>
