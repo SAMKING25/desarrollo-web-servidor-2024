@@ -7,14 +7,15 @@
     <title>Personajes Rick & Morty</title>
 </head>
 <body>
+     <!-- api --   https://rickandmortyapi.com/documentation/  -->
     <?php
         $apiUrl = "https://rickandmortyapi.com/api/character";
-        $cantidad = $_GET["cantidad"];
-        $genero = $_GET["gender"];
-        $especie = $_GET["species"];
+        $cantidad = isset($_GET["cantidad"]) && $_GET["cantidad"] != "" ? (int)$_GET["cantidad"] : 20;
+        $genero = isset($_GET["gender"]) ? $_GET["gender"] : "";
+        $especie = isset($_GET["species"]) ? $_GET["species"] : "";
 
         if(isset($cantidad) && isset($genero) && isset($especie)){
-            $apiUrl = "https://rickandmortyapi.com/api/character?pages=$cantidad&gender=$genero&species=$especie";
+            $apiUrl = "https://rickandmortyapi.com/api/character?gender=$genero&species=$especie";
         }
 
         $curl = curl_init();
@@ -25,7 +26,7 @@
 
         $datos = json_decode($respuesta, true);
         $personajes = $datos["results"];
-         
+
     ?>
     <form method="get">
         <label>¿Cuantos personajes quieres ver?</label>
@@ -58,13 +59,14 @@
         </thead>
         <tbody>
             <?php
-                foreach($personajes as $personaje) { ?>
+                if($cantidad > count($personajes)) $cantidad=count($personajes); 
+                for($i=0; $i<$cantidad; $i++) { ?>
                     <tr>
-                        <td scope="row"><?php echo $personaje["name"]?></td>
-                        <td scope="row"><?php echo $personaje["gender"]?></td>
-                        <td scope="row"><?php echo $personaje["species"]?></td>
+                        <td scope="row"><?php echo $personajes[$i]["name"]?></td>
+                        <td scope="row"><?php echo $personajes[$i]["gender"]?></td>
+                        <td scope="row"><?php echo $personajes[$i]["species"]?></td>
                         <td scope="row">
-                            <img width="100px" src="<?php echo $personaje["image"]?>">
+                            <img width="100px" src="<?php echo $personajes[$i]["image"]?>">
                         </td>
                     </tr>
                 <?php } ?>
