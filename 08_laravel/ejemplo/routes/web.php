@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\CocheController;
+use \App\Http\Controllers\MarcaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/coches', [CocheController::class, 'index']);
+Route::get('/marcas', [MarcaController::class, 'index']);
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/hello', function () {
+    return view('hello');
+});
+
+Route::get('/bye', function () {
+    return view('bye');
 });
