@@ -8,9 +8,10 @@ class CocheController extends Controller
 {
     public function index () {
         $coches = [
-            ["Mazda RX7","Mazda","30000€"],
-            ["Mitshubishi Colt","Mitshubishi","20000€"],
-            ["Fiat multipla","Fiat","50000€"]
+            ["RX7","Mazda",30000],
+            ["Colt","Mitsubishi",20000],
+            ["multipla","Fiat",50000],
+            ["307 MS","Peugeot",15000],
         ];
         return view('coches', ['coches' => $coches]);
     }

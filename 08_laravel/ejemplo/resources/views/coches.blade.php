@@ -11,15 +11,13 @@
         <thead>
             <tr>
                 <th>Modelo</th>
-                <th>Marca</th>
                 <th>Precio</th>
             </tr>
         </thead>
         <tbody>
             @foreach($coches as $coche)
                 <tr>
-                    <td>{{ $coche[0] }}</td>
-                    <td>{{ $coche[1] }}</td>
+                    <td>{{ $coche[1] }} {{ $coche[0] }}</td>
                     <td>{{ $coche[2] }}</td>
                 </tr>
             @endforeach
